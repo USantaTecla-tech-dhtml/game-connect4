@@ -7,10 +7,6 @@ export class RandomMachinePlayer extends MachinePlayer {
         super(color, board);
     }
 
-    accept(visitor){
-        visitor.visitMachinePlayer(this);
-    }
-
     getColumn(){
         let column;
         do {
@@ -19,8 +15,8 @@ export class RandomMachinePlayer extends MachinePlayer {
         return column;
     }
 
-    acceptAction(visitor){
-        visitor.visitMachinePlayer();
+    accept(visitor){
+        visitor.visitMachinePlayer(this);
     }
 
 }

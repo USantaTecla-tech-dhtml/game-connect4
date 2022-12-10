@@ -11,16 +11,16 @@ export class Game {
         this.#turn = new Turn(this.#board, numOfPlayers);
     }
 
-    getTurn(){
-        return this.#turn
-    }
-
-    getBoard(){
-        return this.#board
-    }
-
     getColor(coordinate){
         return this.#board.getColor(coordinate);
+    }
+
+    getActivePlayer(){
+        return this.#turn.getActivePlayer();
+    }
+
+    next(){
+        this.#turn.next();
     }
 
     isComplete() {
@@ -35,12 +35,12 @@ export class Game {
         return this.#board.isFinished();
     }
 
-    getActivePlayer(){
-        return this.#turn.getActivePlayer();
+    getTurn(){
+        return this.#turn
     }
 
-    next(){
-        this.#turn.next();
+    getBoard(){
+        return this.#board
     }
 
 }

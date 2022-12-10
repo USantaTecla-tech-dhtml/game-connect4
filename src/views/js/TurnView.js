@@ -1,16 +1,13 @@
-import { UserPlayerView } from './UserPlayerView.js'
-import { MachinePlayerView } from './MachinePlayerView.js'
-
 export class TurnView {
+
   #turn
-  #column
 
   constructor(turn) {
     this.#turn = turn
-    this.drawTurnMessage()
+    this.#update()
   }
 
-  drawTurnMessage() {
+  #update() {
     let color = this.#turn.getActivePlayer().getColor().toString()
     document.getElementById('redTurn').style.opacity = color === 'Red' ? 1 : 0.2
     document.getElementById('yellowTurn').style.opacity = color === 'Yellow' ? 1 : 0.2
@@ -22,18 +19,19 @@ export class TurnView {
     })
   }
 
-  update(column) {
-    this.#column = column
+  next(column) {
+    this.column = column
     this.#turn.getActivePlayer().accept(this)
+    delete this.column
     this.#turn.next()
-    this.drawTurnMessage()
+    this.#update()
   }
 
   visitUserPlayer(userPlayer) {
-    new UserPlayerView(userPlayer).dropToken(this.#column)
+    userPlayer.dropToken(this.column)
   }
 
   visitMachinePlayer(machinePlayer) {
-    new MachinePlayerView(machinePlayer).dropToken()
+    machinePlayer.dropToken(machinePlayer.getColumn())
   }
 }

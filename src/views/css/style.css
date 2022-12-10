@@ -15,7 +15,46 @@ body {
   margin: 0;
 }
 
-.boardTitle {
+.leftPanel {
+  width: 200px;
+  padding: 10px;
+  background: #3a445e;
+  height: 100vh;
+}
+
+#buttonsId {
+  text-align: center;
+}
+
+#buttonsId button {
+  max-width: 200px;
+  text-align: center;
+  padding: 10px;
+  margin: 10px;
+  background: #0c1621;
+  color: white;
+  font-size: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+#turnId {
+  text-align: center;
+}
+
+#turnId #redTurn {
+  opacity: 1;
+}
+
+#turnId #yellowTurn {
+  opacity: 0.2;
+}
+
+#rightPanel {
+  padding: 10px;
+}
+
+#titleId {
   text-align: center;
   padding: 10px;
   align-content: center;
@@ -62,43 +101,4 @@ body {
 
 #boardId table > tr > th:hover {
   background: var(--th-background-image);
-}
-
-.leftPanel {
-  width: 200px;
-  padding: 10px;
-  background: #3a445e;
-  height: 100vh;
-}
-
-.rightPanel {
-  padding: 10px;
-}
-
-#buttonsId {
-  text-align: center;
-}
-
-#buttonsId button {
-  max-width: 200px;
-  text-align: center;
-  padding: 10px;
-  margin: 10px;
-  background: #0c1621;
-  color: white;
-  font-size: 12px;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-.turnColor {
-  text-align: center;
-}
-
-.turnColor #redTurn {
-  opacity: 1;
-}
-
-.turnColor #yellowTurn {
-  opacity: 0.2;
 }

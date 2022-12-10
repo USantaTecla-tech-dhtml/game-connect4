@@ -7,6 +7,7 @@ export class MachinePlayer extends Player {
     }
 
     accept(visitor){}
+    
     getColumn(){}
 
 }

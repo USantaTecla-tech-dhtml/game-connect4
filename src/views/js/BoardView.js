@@ -1,11 +1,13 @@
 import { Coordinate } from '../../types/Coordinate.js'
+import { MessageDialog } from './MessageDialog.js'
 
 export class BoardView {
   #board
+  #messageDialog
 
   constructor(board) {
     this.#board = board
-    document.getElementById('messageId').innerHTML = ''
+    this.#messageDialog = new MessageDialog(board);
     const section = document.getElementById('boardId');
     section.innerHTML = ''
     section.append(this.#createTable())
@@ -52,22 +54,14 @@ export class BoardView {
 
   update() {
     let lastToken = this.#board.getLastDrop()
-    let color = this.#board
-      .getColor(new Coordinate(lastToken.getRow(), lastToken.getColumn()))
-      .toString()
-    document.getElementById(
-      `${lastToken.getRow()}-${lastToken.getColumn()}`
-    ).style.backgroundImage = `url("../views/images/${color.toLowerCase()}-token.png")`
+    let color = this.#board.getColor(lastToken).toString()
+    document.getElementById(`${lastToken.getRow()}-${lastToken.getColumn()}`)
+      .style.backgroundImage = `url("../views/images/${color.toLowerCase()}-token.png")`
   }
 
-  resultActions() {
+  updateResults() {
     document.getElementById('controls').replaceWith(this.#createRowH())
-    let message = 'Tied!'
-    if (this.#board.isWinner()) {
-      let color = this.#board.getColor(this.#board.getLastDrop())
-      message = `<b style='color: ${color}'>${color}</b> Has won the game!`
-    }
-    document.getElementById('messageId').innerHTML = message;
+    this.#messageDialog.update()
   }
 
 }
