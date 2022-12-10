@@ -20,7 +20,7 @@ export class RandomMachinePlayer extends MachinePlayer {
     }
 
     acceptAction(visitor){
-        visitor.consumeMachineTurn();
+        visitor.visitMachinePlayer();
     }
 
 }

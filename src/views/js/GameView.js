@@ -9,24 +9,32 @@ export class GameView {
   #turnView
 
   askPlayers() {
-    let playerVsPlayer = this.#createNumOfPlayerButton(`Player VS Player`, 2)
-    let playerVsMachine = this.#createNumOfPlayerButton(`Player VS Machine`, 1)
-    let MachineVsMachine = this.#createNumOfPlayerButton(`Machine VS Machine`,0)
-
     let buttonsContainer = document.createElement('div')
-    buttonsContainer.id = 'buttonsContainer'
-    buttonsContainer.append(playerVsPlayer, playerVsMachine, MachineVsMachine)
+    buttonsContainer.id = 'buttonsId'
+    let buttons = []
+    let x = this.#createNumOfPlayerButton(`Player VS Player`, 2)
+    let y = this.#createNumOfPlayerButton(`Player VS Machine`, 1)
+    let z = this.#createNumOfPlayerButton(`Machine VS Machine`, 0)
+    buttonsContainer.append(x, y, z)
     document.getElementById('leftPanel').append(buttonsContainer)
+
+        //   [
+    //     `Machine VS Machine`, 
+    //     `Player VS Machine`, 
+    //     `Player VS Player`].forEach((text, index) => {
+    //     buttonsContainer.append(this.#createNumOfPlayerButton(text, index))
+    //   })
   }
 
   #createNumOfPlayerButton(buttonText, numOfUsersPlayer) {
-    let numOfPlayerButton = document.createElement('button')
-    numOfPlayerButton.innerText = buttonText
-    numOfPlayerButton.addEventListener('click', () => {
-      document.getElementById('buttonsContainer').remove()
+    console.log(numOfUsersPlayer)
+    let button = document.createElement('button')
+    button.innerText = buttonText
+    button.addEventListener('click', () => {
+      document.getElementById('buttonsId').remove()
       this.#startNewGame(numOfUsersPlayer)
     })
-    return numOfPlayerButton
+    return button
   }
 
   #startNewGame(numOfUsersPlayer) {
@@ -34,42 +42,43 @@ export class GameView {
     this.#turnView = new TurnView(this.#game.getTurn())
     this.#boardView = new BoardView(this.#game.getBoard())
     if (numOfUsersPlayer === 0) {
-      this.#game.getActivePlayer().acceptAction(this)
+      this.#game.getActivePlayer().accept(this)
     } else {
-      this.#boardView.setControlsCallback(this.#dropToken.bind(this))
+      this.#boardView.setControlsCallback(this.#update.bind(this))
     }
   }
 
-  #dropToken(column) {
+  #update(column) {
     assert(!this.#game.isWinner())
-    this.#turnView.dropToken(column)
-    this.#boardView.dropToken()
+    this.#turnView.update(column)
+    this.#boardView.update()
 
     if (this.#game.isFinished()) {
       this.#boardView.resultActions()
       this.#drawPlayAgainDialog()
     } else {
-      this.#game.getActivePlayer().acceptAction(this)
+      this.#game.getActivePlayer().accept(this)
     }
   }
 
-  consumeMachineTurn(){
-      setTimeout(() => {
-        this.#dropToken()
-      }, 300)
+  visitMachinePlayer() {
+    setTimeout(() => {
+      this.#update()
+    }, 300)
   }
 
-  
+  visitUserPlayer() {
+  }
 
   #drawPlayAgainDialog() {
     let playAgainButton = document.createElement('button')
     playAgainButton.innerText = 'Play again!'
     let buttonsContainer = document.createElement('div')
-    buttonsContainer.id = 'buttonsContainer'
+    buttonsContainer.id = 'buttonsId'
     buttonsContainer.append(playAgainButton)
     document.getElementById('leftPanel').append(buttonsContainer)
     playAgainButton.addEventListener('click', () => {
-      document.getElementById('buttonsContainer').remove()
+      document.getElementById('buttonsId').remove()
       new GameView().askPlayers()
     })
   }

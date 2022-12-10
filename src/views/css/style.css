@@ -1,3 +1,8 @@
+.main {
+  margin: 0;
+  display: flex;
+}
+
 :root {
   --th-background-image: url('../images/red-token.png');
 }
@@ -16,18 +21,18 @@ body {
   align-content: center;
 }
 
-.boardMessages {
+#messageId {
   text-align: center;
   padding: 10px;
   font-size: 18px;
   align-content: center;
 }
 
-.board {
+#boardId {
   position: relative;
 }
 
-.board table {
+#boardId table {
   margin: auto;
   background: aqua;
   width: 400px;
@@ -38,7 +43,7 @@ body {
   box-shadow: 2px 1px 1px 1px black;
 }
 
-.board table > tr > td {
+#boardId table > tr > td {
   background-color: #0c1621;
   border-radius: 100%;
   min-width: 15px;
@@ -46,7 +51,7 @@ body {
   box-shadow: 2px 1px 1px 1px black inset;
 }
 
-.board table > tr > th {
+#boardId table > tr > th {
   background-color: #0c1621;
   cursor: pointer;
   border-radius: 100%;
@@ -55,13 +60,8 @@ body {
   box-shadow: 2px 1px 1px 1px black inset;
 }
 
-.board table > tr > th:hover {
+#boardId table > tr > th:hover {
   background: var(--th-background-image);
-}
-
-.main {
-  margin: 0;
-  display: flex;
 }
 
 .leftPanel {
@@ -75,11 +75,11 @@ body {
   padding: 10px;
 }
 
-#buttonsContainer {
+#buttonsId {
   text-align: center;
 }
 
-#buttonsContainer button {
+#buttonsId button {
   max-width: 200px;
   text-align: center;
   padding: 10px;

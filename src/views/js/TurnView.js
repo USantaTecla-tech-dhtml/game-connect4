@@ -22,7 +22,7 @@ export class TurnView {
     })
   }
 
-  dropToken(column) {
+  update(column) {
     this.#column = column
     this.#turn.getActivePlayer().accept(this)
     this.#turn.next()

@@ -12,7 +12,7 @@ export class UserPlayerView extends PlayerView {
 
   validateColumn(column) {
     if (this.getActivePlayer().isComplete(column)) {
-      document.getElementById('boardMessages').innerHTML =
+      document.getElementById('messageId').innerHTML =
         'This column is full please select other.'
     }
   }

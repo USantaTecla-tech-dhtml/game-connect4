@@ -5,33 +5,41 @@ export class BoardView {
 
   constructor(board) {
     this.#board = board
-    document.getElementById('boardMessages').innerHTML = ''
-    document.getElementById('board').innerHTML = ''
-    this.#build()
+    document.getElementById('messageId').innerHTML = ''
+    const section = document.getElementById('boardId');
+    section.innerHTML = ''
+    section.append(this.#createTable())
   }
 
-  #build() {
-    let table = document.createElement('table')
-    table.id = 'connect4Board'
-    let tableHeadElement = document.createElement('tr')
-    tableHeadElement.id = 'controls'
-    table.append(tableHeadElement)
-    for (let i = 0; i < Coordinate.NUMBER_COLUMNS; i++) {
-      let newHeadCol = document.createElement('th')
-      newHeadCol.id = `Column-${i}-Control`
-      tableHeadElement.append(newHeadCol)
-    }
+  #createTable() {
+    let table = document.createElement('table');
+    table.append(this.#createRowH(0));
     for (let row = Coordinate.NUMBER_ROWS; row > 0; row--) {
-      let rowElement = document.createElement('tr')
-      rowElement.id = `${row - 1}`
-      table.append(rowElement)
-      for (let column = 0; column < Coordinate.NUMBER_COLUMNS; column++) {
-        let newCol = document.createElement('td')
-        newCol.id = `${row - 1}-${column}`
-        rowElement.append(newCol)
-      }
+      table.append(this.#createRow(row));
     }
-    document.getElementById('board').append(table)
+    return table;
+  }
+
+  #createRowH(row) {
+    let tr = document.createElement('tr')
+    tr.id = 'controls'
+    for (let column = 0; column < Coordinate.NUMBER_COLUMNS; column++) {
+      let th = document.createElement('th')
+      th.id = `Column-${column}-Control`
+      tr.append(th)
+    }
+    return tr
+  }
+
+  #createRow(row) {
+    let tr = document.createElement('tr')
+    tr.id = `${row - 1}`
+    for (let column = 0; column < Coordinate.NUMBER_COLUMNS; column++) {
+      let td = document.createElement('td')
+      td.id = `${row - 1}-${column}`
+      tr.append(td)
+    }
+    return tr
   }
 
   setControlsCallback(callback) {
@@ -42,7 +50,7 @@ export class BoardView {
     })
   }
 
-  dropToken() {
+  update() {
     let lastToken = this.#board.getLastDrop()
     let color = this.#board
       .getColor(new Coordinate(lastToken.getRow(), lastToken.getColumn()))
@@ -53,30 +61,13 @@ export class BoardView {
   }
 
   resultActions() {
-    this.removeControls()
+    document.getElementById('controls').replaceWith(this.#createRowH())
+    let message = 'Tied!'
     if (this.#board.isWinner()) {
-      let color = this.#board.getColor(
-        new Coordinate(
-          this.#board.getLastDrop().getRow(),
-          this.#board.getLastDrop().getColumn()
-        )
-      )
-      document.getElementById(
-        'boardMessages'
-      ).innerHTML = `<b style='color: ${color}'>${color}</b> Has won the game!`
-    } else {
-      document.getElementById('boardMessages').innerHTML = 'Tied!'
+      let color = this.#board.getColor(this.#board.getLastDrop())
+      message = `<b style='color: ${color}'>${color}</b> Has won the game!`
     }
+    document.getElementById('messageId').innerHTML = message;
   }
 
-    removeControls() {
-    let tableHeadElement = document.createElement('tr')
-    tableHeadElement.id = 'controls'
-    for (let i = 0; i < Coordinate.NUMBER_COLUMNS; i++) {
-      let newHeadCol = document.createElement('th')
-      newHeadCol.id = `Column-${i}-Control`
-      tableHeadElement.append(newHeadCol)
-    }
-    document.getElementById('controls').replaceWith(tableHeadElement)
-  }
 }
