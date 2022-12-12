@@ -44,10 +44,10 @@ export class BoardView {
     return tr
   }
 
-  setControlsCallback(callback) {
-    document.querySelectorAll('th').forEach((headElement, key) => {
+  addUpdateListener(onUpdate) {
+    document.querySelectorAll('th').forEach((headElement, column) => {
       headElement.addEventListener('click', () => {
-        callback(key)
+        onUpdate(column)
       })
     })
   }

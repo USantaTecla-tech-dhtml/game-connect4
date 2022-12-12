@@ -42,11 +42,11 @@ body {
   text-align: center;
 }
 
-#turnId #redTurn {
+#turnId #RedId {
   opacity: 1;
 }
 
-#turnId #yellowTurn {
+#turnId #YellowId {
   opacity: 0.2;
 }
 

@@ -1,15 +1,29 @@
 export class ButtonsDialog {
     
-    #BUTTONS_ID = 'buttonsId'
+    #buttons
 
-    getButtons() {
-        let buttons = document.createElement('div')
-        buttons.id = this.#BUTTONS_ID
-        document.getElementById('leftPanel').append(buttons)
-        return buttons;
+    createButtons() {
+        this.#buttons = document.createElement('div')
+        this.#buttons.id = 'buttonsId'
+        document.getElementById('leftPanel').append(this.#buttons)
+    }
+
+    addButton(text, callback, index) {
+        let button = document.createElement('button')
+        this.getButtons().append(button)
+        button.innerText = text
+        button.addEventListener('click', () => {
+            this.deleteButtons()
+            callback(index)
+        })
     }
 
     deleteButtons() {
-        document.getElementById(this.#BUTTONS_ID).remove()
+        document.getElementById('buttonsId').remove()
     }
+
+    getButtons(){
+        return this.#buttons;
+    }
+
 }

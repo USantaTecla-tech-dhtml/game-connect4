@@ -6,6 +6,7 @@ import { NumPlayersDialog } from './NumPlayersDialog.js'
 import { ResumeDialog } from './ResumeDialog.js'
 
 export class GameView {
+
   #game
   #boardView
   #turnView
@@ -19,37 +20,36 @@ export class GameView {
       this.#game = new Game(numOfUsersPlayer)
       this.#turnView = new TurnView(this.#game.getTurn())
       this.#boardView = new BoardView(this.#game.getBoard())
-      if (numOfUsersPlayer === 0) {
-        this.#game.getActivePlayer().accept(this)
+      if (numOfUsersPlayer > 0) {
+        this.#boardView.addUpdateListener(this.#onUpdate.bind(this))
       } else {
-        this.#boardView.setControlsCallback(this.#update.bind(this))
+        this.#game.getActivePlayer().accept(this)
       }
     });
   }
 
-  visitMachinePlayer() {
-    setTimeout(() => {
-      this.#update()
-    }, 300)
+  #onUpdate(column) {
+    assert(!this.#game.isWinner())
+
+    this.#turnView.dropToken(column)
+    this.#boardView.update()
+    if (!this.#game.isFinished()) {
+      this.#game.getActivePlayer().accept(this)
+    } else {
+      this.#boardView.updateResults()
+      new ResumeDialog(() => {
+        this.#init()
+      })
+    }
   }
 
   visitUserPlayer() {
   }
 
-
-  #update(column) {
-    assert(!this.#game.isWinner())
-
-    this.#turnView.next(column)
-    this.#boardView.update()
-    if (this.#game.isFinished()) {
-      this.#boardView.updateResults()
-      new ResumeDialog(() => {
-        this.#init()
-      })
-    } else {
-      this.#game.getActivePlayer().accept(this)
-    }
+  visitMachinePlayer() {
+    setTimeout(() => {
+      this.#onUpdate()
+    }, 300)
   }
 
 }
